@@ -1,0 +1,35 @@
+CREATE TABLE users (
+    id INTEGER PRIMARY KEY,
+    username VARCHAR (255)UNIQUE,
+    password_hash TEXT
+);
+
+CREATE TABLE quizzes (
+    id INTEGER PRIMARY KEY,
+    title TEXT
+);
+
+CREATE TABLE questions (
+    id INTEGER PRIMARY KEY,
+    quiz_id INTEGER,
+    question_text TEXT,
+    FOREIGN KEY (quiz_id) REFERENCES quizzes(id)
+);
+
+CREATE TABLE answers (
+    id INTEGER PRIMARY KEY,
+    question_id INTEGER,
+    answer_text TEXT,
+    correct INTEGER,
+    FOREIGN KEY (question_id) REFERENCES questions(id)
+);
+
+CREATE TABLE quiz_results (
+    id INTEGER PRIMARY KEY,
+    user_id INTEGER,
+    quiz_id INTEGER,
+    score INTEGER,
+    attempt_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES users(id),
+    FOREIGN KEY (quiz_id) REFERENCES quizzes(id)
+);
